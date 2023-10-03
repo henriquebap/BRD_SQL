@@ -235,3 +235,170 @@ from VENDEDOR;
 --- Quais vendedores (nome) com o acrescimo de 15% ganhariam mais de 3.5000?
 SELECT NOME_VEN, SALARIO_FIXO, SALARIO_FIXO *1.15 "Salario reajustado" FROM VENDEDOR WHERE ((SALARIO_FIXO*1.15)>3500);
 
+
+-- Aula 8 - 3/10 criando relatorios
+-- Cp2 17/10 INdividual ou em dupla
+
+- in (list) - igual ou dentro de uma lista
+        Sintaxe: nome_coluna in(valor1,....., valorN)
+
+--Quais os produts, mostram o nome , preco com unidade de medida igual a litro, metro e grama
+-- Exemplol com operadores de bd:
+select descricao, val_unit, unidade FROM produto
+where unidade in ('L','M','K');
+
+-- Negando a lista
+select descricao, val_unit unidade from produto
+where unidade not in ('L','M','K')
+
+--Montar um relatório que mostre os clientes de código entre 100 e 500 (inclusive) e que não morem nos estados de SP e MG.
+
+select nome_clie, cod_clie, uf from Cliente
+where cod_clie BETWEEN 100 and 500 and uf not in ('SP','MG')
+ORDER by 1;
+
+-- like - igual ou como o (s) valor(es)
+        --opces - % - qualquer quantidade, qualquer posicao
+                ---_(underline) - quantidade especifica, posicao especifica
+        --sintax: nome_coluna like(?%?)
+                --Nopme colune like(?_?)
+                --Nome coluna like (?%?_?)
+--Exemplo
+Pesquisar os clientes com a letra "a" na ultima posicao de seu NOME_CLIE
+-- % Qualquer QUANTIDADE DE POSICOES
+sintaxe: nome_coluna like ('%a')
+
+select NOME_CLIE from CLIENTE
+where NOME_CLIE like '%a';
+
+--Exemplo
+Pesquisar os clientes com a letra "a" na primeira posicao de seu NOME_CLIE
+-- % Qualquer QUANTIDADE DE POSICOES
+sintaxe: nome_coluna like ('A%')
+
+select NOME_CLIE from CLIENTE
+where NOME_CLIE like 'A%';
+
+--Exemplo
+Pesquisar os clientes com a letra "a" em qualquer posicao de seu NOME_CLIE
+-- % Qualquer QUANTIDADE DE POSICOES
+sintaxe: nome_coluna like ('%A%')
+
+select NOME_CLIE from CLIENTE
+where NOME_CLIE like '%A%' or NOME_CLIE like '%a%';
+
+-- Exemplo
+Pesquisar os clientes que tenham 4 letras em seu nome
+sintaxe: nome_coluna like('____') --- 4x underline
+
+select NOME_CLIE from CLIENTE
+where NOME_CLIE like '____';
+
+-- Exemplo
+Pesquisar os clientes que tem a letra "a" na 2a posicao de seu NOME_CLIE
+sintaxe: nome_coluna like('_a%') --- 4x underline
+
+select NOME_CLIE from CLIENTE
+where NOME_CLIE like '_a%';
+
+
+Pesquisar os clientes que tem a letra "i" em qualquer posicao de seu NOME_CLIE
+
+select NOME_CLIE from CLIENTE
+where NOME_CLIE like '%I%' or NOME_CLIE like '%i%';
+
+Pesquisar os clientes que tem a letra "u" ou "o" em qualquer posicao de seu NOME_CLIE
+
+select NOME_CLIE from CLIENTE
+where NOME_CLIE like '%u%' or NOME_CLIE like '%o%';
+
+Pesquisar os clientes com não tenham a letra "a" em seu nome
+
+select NOME_CLIE from CLIENTE
+where NOME_CLIE not like '%A%' and NOME_CLIE not like '%a%';
+
+Pesquisar os clientes com a letra "a" e "o" em seu nome
+
+select NOME_CLIE from CLIENTE
+where NOME_CLIE like '%a%' and NOME_CLIE like '%o%';
+
+-- Funcoes
+
+-- Numerica Simples -  Numeros, processa linha a linha e retorna o resultado por Linha
+-- Round - arredondamento
+sintax: funcao(nome_coluna, casas decimais)
+        round(nome_coluna, casa decimais)
+
+-- Trunc - desprezo, ignorar casas decimais
+sintax: funcao(nome_coluna, casas decimais)
+        trunc(nome_colunam, casas decimais)
+
+
+select SALARIO_FIXO / 1.3,
+round (SALARIO_FIXO / 1.3,2) arredonda,
+trunc(SALARIO_FIXO / 1.3,2)Despreza
+from VENDEDOR;
+
+-- Caracter
+upper -- Maiusculo
+lower -- Minusculo
+initcap -- Primeira posicao maisucula
+LENGTH -- Conta caracteres
+substr -- Parte de uma string
+
+
+Sintaxe: funcao(nome_coluna)
+sintaxe substr(noem_coluna, inicio de leituram qtde de caracteres)
+
+--Exemplo, Somente altera a visualizacao, nao as tabelas
+select NOME_CLIE, upper(NOME_CLIE) Maiusculo, lower(NOME_CLIE) Minusculo from CLIENTE
+order by 1;
+
+--Initcap
+select NOME_CLIE, upper(NOME_CLIE) Maiusculo, lower(NOME_CLIE) Minusculo,
+initcap(NOME_CLIE) "Primeira Maiuscula"
+FROM cliente
+order by 1;
+
+-- LENGTH
+select NOME_CLIE, upper(NOME_CLIE) Maiusculo, lower(NOME_CLIE) Minusculo,
+initcap(NOME_CLIE) "Primeira Maiuscula", LENGTH(NOME_CLIE) Tamanho
+FROM cliente
+order by 1;
+
+-- substr
+
+select NOME_CLIE, SUBSTR(NOME_CLIE,2,3) from CLIENTE;
+
+-- Nova senha
+
+select SUBSTR(NOME_CLIE,2,3)||substr(cep,2,3)||substr(NOME_CLIE,2,2)||substr(cnpj,3,3)"Nova Senha" 
+from CLIENTE;
+
+select * from cliente where lower(NOME_CLIE) = 'ana';
+select * from cliente where upper(NOME_CLIE) = 'ana';
+
+
+-- NUmerica Grupo - Analisa varias linhas e retorna um valor apenas
+
+-- Quantos clientes existem na tabela cliente?
+
+select count(*) from CLIENTE;
+
+-- count = contador
+Count (*) conta todas as linhas e as colunas e trona o maior valor
+Count(coluna) - conta as linhas de uma coluna especifica
+
+
+select count (*) , count(COD_CLIE), COUNT (CEP) from CLIENTE;
+select * from cliente where cep is null;
+
+-- Quantos clientes sao do estado de sao paulo?
+
+select NOME_CLIE, uf from CLIENTE
+where upper(uf) in 'SP';
+
+-- Usando Count
+
+select count(uf) from CLIENTE
+where upper(uf) in 'SP';
