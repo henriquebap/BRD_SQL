@@ -402,3 +402,57 @@ where upper(uf) in 'SP';
 
 select count(uf) from CLIENTE
 where upper(uf) in 'SP';
+
+
+
+-- Aula 9 - 10/10 Criando relatorios
+
+-- CP2 - 17/10
+
+Maior valor da colun a- max (nome_coluna)
+Menorvalor da coluna a - min (nome_coluna)
+somatoria de vaores de uma coluna - sum(nome_coluna)
+media de valores de uma coluna - avg(nome_coluna)
+
+select max (SALARIO_FIXO) "Maior Salario", min(SALARIO_FIXO)"Menor Salario",
+sum(SALARIO_FIXO)"Soma de todos os salarios",
+round (avg (SALARIO_FIXO),2)"Media de salarios" from VENDEDOR
+
+
+agrupamento por coluna - group BY
+
+-- Quantos vendedores existem por comissao?
+
+select * from vendedor order by COMISSAO;
+-- or
+select comissao from vendedor order by 1;
+-- Usado group by, select mostra um item se existe, count mostra a quantidade, de onde depois group by
+select comissao, count(comissao) from VENDEDOR group by COMISSAO;
+-- Verificar valores
+select * from vendedor where upper(comissao) = 'A';
+
+Quantos clientes nao moram no estado de Sp?
+-- Nao se torna viavel usar o group by onde nao é chave primiaria ou preenchimento obrigatorio
+select count(COD_CLIE)
+from cliente
+where upper(uf) !='SP';
+
+Quantos clientes existem por estado?
+-- aqui pede quantidade por cada estado, por isso o group by fica mais facil e viavel
+select uf, count(COD_CLIE)from CLIENTE GROUP by uf;
+
+select nome_ven, SALARIO_FIXO, SALARIO_FIXO * 1.1 "Salario + 10%" from VENDEDOR;
+
+-- Quantos vendedores ganharao mais de 2.500 apos ser dado u aumeo de 10% em seu salario?
+
+SELECT COUNT(*)
+FROM VENDEDOR
+WHERE SALARIO_FIXO * 1.1 > 2500;
+
+-- Faca o nome do vendedor, seu salario_fixo desde que ele tenha o maior salario?
+
+select NOME_VEN, SALARIO_FIXO * 1.1 "Salario Ajustado"
+FROM VENDEDOR
+where SALARIO_FIXO = (select max(SALARIO_FIXO) from VENDEDOR)
+
+
