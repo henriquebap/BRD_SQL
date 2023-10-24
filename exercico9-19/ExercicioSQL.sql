@@ -527,3 +527,17 @@ select NOME_CLIE, NOME_VEN, NUM_PEDIDO from PEDIDO p
 inner join vendedor v on v.COD_VEN = p.COD_VEN
 inner join CLIENTE c on c.COD_CLIE = p.COD_CLIE
 order by 1;
+
+
+-- listar os pedidos (numero) produto (descricao) que tenham o produto chocolate.
+select NUM_PEDIDO DESCRICAO FROM ITEM_PEDIDO itemP
+inner join PRODUTO p on p.cod_prod = ITEMP.COD_PROD
+where upper(P.DESCRICAO) = 'Chocolate';
+
+-- Liste o nome do vendedor que vendeu o produto linha;
+select NUM_PEDIDO DESCRICAO FROM ITEM_PEDIDO itemP
+inner join PRODUTO p on p.cod_prod = ITEMP.COD_PROD
+where upper(P.DESCRICAO) = 'Papel';
+
+-- Qual O nome do vendedor que vendeu mais o produto vinho?
+
