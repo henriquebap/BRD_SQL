@@ -456,3 +456,41 @@ FROM VENDEDOR
 where SALARIO_FIXO = (select max(SALARIO_FIXO) from VENDEDOR)
 
 
+-- Exiba o nome do vendedor, seu salario desde que ele tenha o maior salario cadastrado 
+-- na tabela vendedores
+ -- Subconsulta - Subquery - subquerie
+ -- 1 - Saida de dados
+ select NOME_VEN, SALARIO_FIXO from VENDEDOR;
+-- 2 -Condicao de Saida de Dados        
+select max(SALARIO_FIXO) from VENDEDOR;
+-- 3 juntar as duas
+select nome_ven, SALARIO_FIXO from VENDEDOR
+where SALARIO_FIXO = (select max(SALARIO_FIXO) from VENDEDOR);
+
+-- Exiba o noe do vendedor, seu salaario desde que ele tenha o menor salario cadastrado
+select NOME_VEN, SALARIO_FIXO from VENDEDOR
+where SALARIO_FIXO = (select min(SALARIO_FIXO)from VENDEDOR);
+--Exiba o nome do vendedor, seu saalario desde que ele teha o MENOR OU Maior salario cadastrado
+select nome_ven, SALARIO_FIXO from VENDEDOR
+where SALARIO_FIXO in ((SELECT min(SALARIO_FIXO) from VENDEDOR), (select max(SALARIO_FIXO) from VENDEDOR));
+-- Exiba o nome do vendedr, seu salario desde que ele seja maior que a media salarial
+select NOME_VEN, SALARIO_FIXO from VENDEDOR
+where SALARIO_FIXO > (SELECT avg(SALARIO_FIXO) from VENDEDOR);
+
+
+---- Juncao de tabelas-- Uso qunado o relatorio estiver a necessidade de acesso a mais--
+-- de uma tabela
+
+create table cargo(cd_cargo number(2)CONSTRAINT cargo_cod_pk PRIMARY KEY not null,
+                        nm_cargo VARCHAR2(20) not NULL,
+                        salario_cargo number(8,2))
+DROP TABLE cargo CASCADE CONSTRAINTS;
+
+insert into cargo values ('1','Senior','1000.00');
+
+
+-- Juncao por equivalencia ou igualdade - Inner Join
+desc cargo
+
+select * from cargo;
+

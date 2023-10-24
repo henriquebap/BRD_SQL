@@ -60,7 +60,7 @@ select * from DISCIPLINA
 where CARGA_HOR > 250 and CARGA_HOR < 550;
 
 -- Exercicio 5 *
-select nome, CIDADE from Professor where nome like('%i%') and CIDADE !='São Paulo' and CIDADE !='Guarulhos';
+select nome, CIDADE from Professor where nome like('%i%') or CIDADE !='São Paulo' or CIDADE !='Guarulhos';
 
 -- Exercicio 6 *
 select * from Turma where cod_turma >= 220 and cod_turma <= 320 and ano = 2000 and horario = 'vespertino';
@@ -69,7 +69,7 @@ select * from Turma where cod_turma >= 220 and cod_turma <= 320 and ano = 2000 a
 SELECT RA FROM ALUNO WHERE RA = (SELECT RA FROM HISTORICO WHERE nota < 6 or nota > 7 and FREQUENCIA < 20);
 
 -- Exercicio 8 *
-SELECT * FROM Aluno WHERE cidade != 'São Paulo' and cidade != 'Bahia' and nome like('____'); 
+SELECT * FROM Aluno WHERE cidade != 'São Paulo' or cidade != 'Bahia' or nome like('____'); 
 
 -- Exercicio 9 *
 SELECT RA FROM Aluno WHERE RA = (SELECT RA FROM Historico WHERE ano >= 2009 and ano <= 2015 and cod_prof = 99 or cod_prof = 37 or cod_prof = 44);
