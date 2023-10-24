@@ -511,3 +511,19 @@ select * from funcionario_cargo
 select nm_fun, nm_cargo from cargo
 inner join funcionario_cargo on cargo.cd_cargo = funcionario_cargo.cd_cargo;
 
+-- Listar o nome do cliente e o numero de seu pedido
+select NOME_CLIE, NUM_PEDIDO from CLIENTE c
+inner join pedido p on c.COD_CLIE = p.COD_CLIE
+order by 1;
+
+-- Listar o nome do vendedor e o numero de seus pedidos
+select NOME_VEN, NUM_PEDIDO from VENDEDOR v
+inner join pedido p on v.COD_VEN = p.COD_VEN
+order by 1;
+
+-- Listar o nome do cliente, o nome do vendedeor e o numero de seu pedido
+
+select NOME_CLIE, NOME_VEN, NUM_PEDIDO from PEDIDO p
+inner join vendedor v on v.COD_VEN = p.COD_VEN
+inner join CLIENTE c on c.COD_CLIE = p.COD_CLIE
+order by 1;
