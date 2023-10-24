@@ -480,17 +480,34 @@ where SALARIO_FIXO > (SELECT avg(SALARIO_FIXO) from VENDEDOR);
 
 ---- Juncao de tabelas-- Uso qunado o relatorio estiver a necessidade de acesso a mais--
 -- de uma tabela
-
+DROP TABLE cargo CASCADE CONSTRAINTS;
 create table cargo(cd_cargo number(2)CONSTRAINT cargo_cod_pk PRIMARY KEY not null,
                         nm_cargo VARCHAR2(20) not NULL,
                         salario_cargo number(8,2))
-DROP TABLE cargo CASCADE CONSTRAINTS;
 
-insert into cargo values ('1','Senior','1000.00');
+insert into cargo values (1,'Senior',1000.00);
 
 
 -- Juncao por equivalencia ou igualdade - Inner Join
+
+
 desc cargo
 
 select * from cargo;
+
+--
+
+drop table funcionario_cargo cascade CONSTRAINTS;
+create table funcionario_cargo (mat_fun number(2) PRIMARY KEY,
+                                nm_fun VARCHAR(20)not NULL,
+                                cd_cargo REFERENCES cargo);
+
+insert into funcionario_cargo values(10,'Maria',1);
+commit;
+
+select * from funcionario_cargo
+
+-- Listar o nome do funcionario e o cargo (nome) que ele ocupa.
+select nm_fun, nm_cargo from cargo
+inner join funcionario_cargo on cargo.cd_cargo = funcionario_cargo.cd_cargo;
 
